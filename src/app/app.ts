@@ -10,6 +10,7 @@ interface CabOption {
   price: string;
   fareNote: string;
   tags: string[];
+  imageUrl: string;
 }
 
 @Component({
@@ -19,7 +20,7 @@ interface CabOption {
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('SwiftRide Demo');
+  protected readonly title = signal('Kunal Travel Demo');
 
   protected readonly showLoginModal = signal(false);
   protected readonly showConfirmation = signal(false);
@@ -38,6 +39,8 @@ export class App {
       price: '₹ 11/km',
       fareNote: 'Approx. ₹ 300 for 20 km',
       tags: ['Best for city', 'AC • UPI'],
+      imageUrl:
+        'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=400',
     },
     {
       id: 2,
@@ -49,6 +52,8 @@ export class App {
       price: '₹ 13/km',
       fareNote: 'Approx. ₹ 360 for 20 km',
       tags: ['Extra legroom', 'Luggage friendly'],
+      imageUrl:
+        'https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&cs=tinysrgb&w=400',
     },
     {
       id: 3,
@@ -60,6 +65,8 @@ export class App {
       price: '₹ 16/km',
       fareNote: 'Approx. ₹ 450 for 20 km',
       tags: ['Family trips', 'Airport ready'],
+      imageUrl:
+        'https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=400',
     },
     {
       id: 4,
@@ -71,6 +78,8 @@ export class App {
       price: '₹ 80/km',
       fareNote: 'From ₹ 2,400 for 30 km / 4 hrs',
       tags: ['Wedding • VIP', 'Chauffeur driven'],
+      imageUrl:
+        'https://images.pexels.com/photos/1402787/pexels-photo-1402787.jpeg?auto=compress&cs=tinysrgb&w=400',
     },
     {
       id: 5,
@@ -82,9 +91,12 @@ export class App {
       price: '₹ 90/km',
       fareNote: 'From ₹ 2,800 for 30 km / 4 hrs',
       tags: ['Corporate', 'Airport transfer'],
+      imageUrl:
+        'https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?auto=compress&cs=tinysrgb&w=400',
     },
   ]);
   protected readonly selectedCab = signal<CabOption | null>(null);
+  protected readonly showChat = signal(false);
 
   openLogin(role: 'consumer' | 'driver' | 'partner' | 'guest' = 'guest') {
     this.activeRole.set(role);
@@ -116,7 +128,17 @@ export class App {
 
   selectCab(option: CabOption) {
     this.selectedCab.set(option);
+  }
+
+  confirmSelectedCab() {
+    if (!this.selectedCab()) {
+      return;
+    }
     this.showConfirmation.set(true);
     setTimeout(() => this.showConfirmation.set(false), 4000);
+  }
+
+  toggleChat() {
+    this.showChat.update((v) => !v);
   }
 }

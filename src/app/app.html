@@ -11,9 +11,9 @@
   <header class="header">
     <div class="header-inner">
       <div class="brand">
-        <span class="brand-mark">SR</span>
+        <span class="brand-mark">KT</span>
         <div class="brand-text">
-          <span class="brand-name">SwiftRide</span>
+          <span class="brand-name">Kunal Travel</span>
           <span class="brand-tagline">Cabs • Luxury • Travellers • Transport</span>
         </div>
       </div>
@@ -39,7 +39,7 @@
     <div class="hero-gradient"></div>
     <div class="hero-inner container">
       <div class="hero-left">
-        <div class="hero-pill">All-in-one mobility platform for India</div>
+        <div class="hero-pill">Professional cab & travel platform</div>
         <h1>
           Cabs, travellers, luxury cars & transport
           <span class="hero-highlight">for every city and journey.</span>
@@ -146,7 +146,7 @@
             <button class="btn btn-primary btn-full" (click)="submitBookingDemo()">Check demo rates</button>
             <button class="btn btn-outline btn-full" (click)="openLogin('consumer')">Login with mobile number</button>
             <p class="booking-note">
-              100% static demo UI. Hook this form to your own APIs when you are ready to go live.
+              This demo shows how your booking page can look. Later you can connect it to your own live APIs.
             </p>
           </div>
         </div>
@@ -254,13 +254,18 @@
               @if (cab.category === selectedCategory()) {
                 <article class="cab-card">
                   <header>
-                    <div>
-                      <h3>{{ cab.name }}</h3>
-                      <p>{{ cab.type }} • {{ cab.seats }} seats</p>
+                    <div class="cab-header-main">
+                      <div>
+                        <h3>{{ cab.name }}</h3>
+                        <p>{{ cab.type }} • {{ cab.seats }} seats</p>
+                      </div>
+                      <div class="cab-price-block">
+                        <span class="cab-price">{{ cab.price }}</span>
+                        <span class="cab-fare-note">{{ cab.fareNote }}</span>
+                      </div>
                     </div>
-                    <div class="cab-price-block">
-                      <span class="cab-price">{{ cab.price }}</span>
-                      <span class="cab-fare-note">{{ cab.fareNote }}</span>
+                    <div class="cab-photo">
+                      <img [src]="cab.imageUrl" [alt]="cab.name + ' photo'" />
                     </div>
                   </header>
                   <div class="cab-meta">
@@ -291,12 +296,14 @@
                   <span class="summary-price">{{ chosen.price }}</span>
                 </div>
                 <ul>
-                  <li><span class="material-symbols-outlined">event</span> Today • Demo date</li>
-                  <li><span class="material-symbols-outlined">schedule</span> Within {{ chosen.eta }}</li>
+                  <li><span class="material-symbols-outlined">event</span> Selected date from form</li>
+                  <li><span class="material-symbols-outlined">schedule</span> Pickup in approx. {{ chosen.eta }}</li>
                   <li><span class="material-symbols-outlined">group</span> Up to {{ chosen.seats }} passengers</li>
-                  <li><span class="material-symbols-outlined">paid</span> Pay via UPI or cash (demo)</li>
+                  <li><span class="material-symbols-outlined">paid</span> Pay at trip end (cash / UPI)</li>
                 </ul>
-                <button class="btn btn-outline btn-full">Confirm demo booking</button>
+                <button class="btn btn-outline btn-full" (click)="confirmSelectedCab()">
+                  Confirm booking
+                </button>
               </div>
             } @else {
               <div class="summary-empty">
@@ -454,7 +461,7 @@
   <section class="section section-contact" id="contact">
     <div class="container">
       <div class="section-header">
-        <h2>Contact us</h2>
+        <h2>Contact Kunal Travel</h2>
         <p>Send your details and we will get back to you for bookings or partnership.</p>
       </div>
 
@@ -480,14 +487,14 @@
         </form>
 
         <div class="contact-info">
-          <h3>SwiftRide support</h3>
+          <h3>Kunal Travel support</h3>
           <p class="contact-text">
             This form is for demo only – in your live app you can send it to email, WhatsApp, or your CRM.
           </p>
           <ul>
-            <li><span class="material-symbols-outlined">call</span> +91 708-112-3339</li>
-            <li><span class="material-symbols-outlined">mail</span> support@hurryupcabs.com</li>
-            <li><span class="material-symbols-outlined">location_on</span> Vibhuti Khand, Gomti Nagar, Lucknow</li>
+            <li><span class="material-symbols-outlined">call</span> Phone no. 088472 84848</li>
+            <li><span class="material-symbols-outlined">mail</span> Email - service@shrikanthtour&amp;trvels.in</li>
+            <li><span class="material-symbols-outlined">language</span> Online booking: Contact us</li>
           </ul>
         </div>
       </div>
@@ -497,8 +504,8 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div class="footer-brand">
-        <span class="brand-mark">SR</span>
-        <span class="brand-name">SwiftRide Demo</span>
+        <span class="brand-mark">KT</span>
+        <span class="brand-name">Kunal Travel Demo</span>
         <p>Static Angular landing page crafted for cab booking demos.</p>
       </div>
       <div class="footer-columns">
@@ -528,6 +535,40 @@
       <span>© 2026 HurryUp Demo Experience. Built with Angular.</span>
     </div>
   </footer>
+
+  <button class="chat-fab" (click)="toggleChat()">
+    <span class="material-symbols-outlined">chat</span>
+  </button>
+
+  @if (showChat()) {
+    <div class="chat-window">
+      <header class="chat-header">
+        <div>
+          <div class="chat-title">Kunal Travel support</div>
+          <div class="chat-sub">WhatsApp-style demo chat (UI only)</div>
+        </div>
+        <button class="icon-btn" (click)="toggleChat()">×</button>
+      </header>
+      <div class="chat-body">
+        <div class="chat-message chat-message-agent">
+          <div class="chat-bubble">
+            Hi 👋, share your pickup city, date and time and our team will confirm your cab.
+          </div>
+          <div class="chat-meta">Now · Kunal Travel</div>
+        </div>
+        <div class="chat-message chat-message-you">
+          <div class="chat-bubble">
+            Example: Chandigarh to Mohali, today at 5:30 PM, sedan.
+          </div>
+          <div class="chat-meta">You · demo text</div>
+        </div>
+      </div>
+      <form class="chat-input-row" (submit)="$event.preventDefault()">
+        <input type="text" placeholder="Type your message (demo only, not sent)" />
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  }
 
   @if (showLoginModal()) {
     <div class="overlay">
